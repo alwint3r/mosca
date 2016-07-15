@@ -1379,7 +1379,9 @@ module.exports = function(moscaSettings, createConnection) {
   });
 
   it("should support publish authorization (success)", function(done) {
-    instance.authorizePublish = function(client, topic, payload, callback) {
+    instance.authorizePublish = function(client, packet, callback) {
+      var topic = packet.topic;
+      var payload = packet.payload;
       expect(topic).to.be.eql("hello");
       expect(payload.toString()).to.be.eql("world");
       callback(null, true);
@@ -1404,7 +1406,9 @@ module.exports = function(moscaSettings, createConnection) {
   });
 
   it("should support publish authorization (failure)", function(done) {
-    instance.authorizePublish = function(client, topic, payload, callback) {
+    instance.authorizePublish = function(client, packet, callback) {
+      var topic = packet.topic;
+      var payload = packet.payload;
       expect(topic).to.be.eql("hello");
       expect(payload.toString()).to.be.eql("world");
       callback(null, false);
@@ -1423,7 +1427,7 @@ module.exports = function(moscaSettings, createConnection) {
   });
 
   it("should support overriding the payload during authorization", function(done) {
-    instance.authorizePublish = function(client, topic, payload, callback) {
+    instance.authorizePublish = function(client, packet, callback) {
       callback(null, new Buffer("rewritten"));
     };
 
@@ -1455,7 +1459,7 @@ module.exports = function(moscaSettings, createConnection) {
       callback(null, true);
     };
 
-    instance.authorizePublish = function(client, topic, payload, callback) {
+    instance.authorizePublish = function(client, packet, callback) {
       expect(client).to.have.property("shared", "message");
       callback(null, true);
     };
@@ -1478,7 +1482,9 @@ module.exports = function(moscaSettings, createConnection) {
   });
 
   it("should support will authorization (success)", function(done) {
-    instance.authorizePublish = function(client, topic, payload, callback) {
+    instance.authorizePublish = function(client, packet, callback) {
+      var topic = packet.topic;
+      var payload = packet.payload;
       expect(topic).to.be.eql("hello");
       expect(payload.toString()).to.be.eql("world");
       callback(null, true);
@@ -1503,7 +1509,9 @@ module.exports = function(moscaSettings, createConnection) {
   });
 
   it("should support will authorization (failure)", function(done) {
-    instance.authorizePublish = function(client, topic, payload, callback) {
+    instance.authorizePublish = function(client, packet, callback) {
+      var topic = packet.topic;
+      var payload = packet.payload;
       expect(topic).to.be.eql("hello");
       expect(payload.toString()).to.be.eql("world");
       callback(null, false);

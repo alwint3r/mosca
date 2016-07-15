@@ -34,7 +34,7 @@ var authenticate = function (client, username, password, callback) {
         callback(null, false);
 }
 
-var authorizePublish = function (client, topic, payload, callback) {
+var authorizePublish = function (client, packet, callback) {
     callback(null, true);
 }
 
@@ -50,7 +50,7 @@ function setup() {
     server.authenticate = authenticate;
     server.authorizePublish = authorizePublish;
     server.authorizeSubscribe = authorizeSubscribe;
-    
+
     console.log('Mosca server is up and running.');
 }
 

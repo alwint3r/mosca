@@ -52,7 +52,7 @@ var moscaSettings = {
 var auth = {
   "*":{ // this asterisk requires no username. Remove it only allowing authorized users.
     password:"",
-    subscribe: [ 
+    subscribe: [
               "a_public_topic", "another_public_topic"
             ],
     publish: []
@@ -80,7 +80,7 @@ var authenticate = function (client, username, password, callback) {
     if(username === undefined && auth["*"] !== undefined){
        authorized = true;
     }else if(username !== undefined && password !== undefined){
-       var pw = 
+       var pw =
           crypto.createHash('md5').update(username).update(password.toString()).digest("hex");
        if(auth[username] !== undefined && auth[username].password == pw){
            client.user = username;
@@ -102,8 +102,9 @@ var authorizeSubscribe = function (client, topic, callback) {
     callback(null, answer);
 }
 
-var authorizePublish = function (client, topic, callback) {
+var authorizePublish = function (client, packet, callback) {
     var answer = false;
+    var topic = packet.topic;
     if(auth["*"] !== undefined && auth["*"].publish.indexOf(topic)>=0){
        answer = true;
     }else if(client.user !== undefined && auth[client.user].publish.indexOf(topic)>=0){
@@ -120,7 +121,7 @@ function setup() {
     server.authenticate = authenticate;
     server.authorizePublish = authorizePublish;
     server.authorizeSubscribe = authorizeSubscribe;
-    
+
     console.log('Mosca server is up and running.');
 }
 
